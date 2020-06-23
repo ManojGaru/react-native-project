@@ -11,70 +11,91 @@ import Footer from "../../components/Footer/Footer";
 
 const array=[
     {
-        key:1,
-        name:'Shirt',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"chevrolet chevelle malibu",
+       "Miles_per_Gallon":18,
+       "Cylinders":8,
+       "Displacement":307,
+       "Horsepower":130,
+       "Weight_in_lbs":3504,
+       "Acceleration":12,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
     {
-        key:2,
-        name:'T Shirt',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"buick skylark 320",
+       "Miles_per_Gallon":15,
+       "Cylinders":8,
+       "Displacement":350,
+       "Horsepower":165,
+       "Weight_in_lbs":3693,
+       "Acceleration":11.5,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
     {
-        key:3,
-        name:'Trouser',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"plymouth satellite",
+       "Miles_per_Gallon":18,
+       "Cylinders":8,
+       "Displacement":318,
+       "Horsepower":150,
+       "Weight_in_lbs":3436,
+       "Acceleration":11,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
     {
-        key:4,
-        name:'Hooders',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"amc rebel sst",
+       "Miles_per_Gallon":16,
+       "Cylinders":8,
+       "Displacement":304,
+       "Horsepower":150,
+       "Weight_in_lbs":3433,
+       "Acceleration":12,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
     {
-        key:5,
-        name:'Saree',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"ford torino",
+       "Miles_per_Gallon":17,
+       "Cylinders":8,
+       "Displacement":302,
+       "Horsepower":140,
+       "Weight_in_lbs":3449,
+       "Acceleration":10.5,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
     {
-        key:6,
-        name:'Saree',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"ford galaxie 500",
+       "Miles_per_Gallon":15,
+       "Cylinders":8,
+       "Displacement":429,
+       "Horsepower":198,
+       "Weight_in_lbs":4341,
+       "Acceleration":10,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
     {
-        key:7,
-        name:'Saree',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
+       "Name":"chevrolet impala",
+       "Miles_per_Gallon":14,
+       "Cylinders":8,
+       "Displacement":454,
+       "Horsepower":220,
+       "Weight_in_lbs":4354,
+       "Acceleration":9,
+       "Year":"1970-01-01",
+       "Origin":"USA",
+       "price":"27005.00"
     },
-    {
-        key:8,
-        name:'Saree',
-        price:'0.00',
-        ggprice:'0.00',
-        qty:'54',
-        total:'12.00'
-    }
-]
+  
+ ]
 
   class Home extends Component {
 
@@ -83,43 +104,13 @@ const array=[
 
         this.state={
             searchedKeyWord:'',
-            dataArray:[],
+            dataArray:array,
             filterDataArray:[]
         }
     }
 
     componentDidMount = () => {
-        fetch('http://innovious-websolutions.com/ecommerce-api/api.php', {
-           method: 'GET'
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-           console.log(responseJson);
-           this.setState({
-            dataArray: responseJson
-           })
-        })
-        .catch((error) => {
-           console.error(error);
-        });
-     }
-     search=()=>{
-        fetch('http://innovious-websolutions.com/ecommerce-api/search.php?search_param="'+this.state.searchedKeyWord.trim()+'"', {
-            method: 'GET'
-         })
-         .then((response) => response.json())
-         .then((responseJson) => {
-            console.log(responseJson);
-            this.setState({
-                dataArray: responseJson,
-                filterDataArray : responseJson
-            })
-         })
-         .catch((error) => {
-            console.error(error);
-         });
-        
-     }
+    }
     render() {
     return (
     <>
@@ -132,23 +123,22 @@ const array=[
     style={styles.input} 
     placeholder="Enter Keyword to search"  
     onChangeText={(text)=>{
-        this.setState({
-            searchedKeyWord:text
-        })
-        // if(this.state.searchedKeyWord === ""){
-        //     this.setState({
-        //         dataArray:this.state.filterDataArray
-        //     })
-        // }
-
+        if (text != '') {
+            let data = this.state.dataArray.filter((item) =>
+              item.name.toLowerCase().includes(text.toLowerCase()),
+            );
+            this.setState({dataArray: data});
+          } else {
+           
+              this.setState({dataArray: array});
+            
+          }
     }}
-   
-    
     > </TextInput>
   
     </View>
     <View>
-    <Icon style={styles.icon} name="search" size={20} onPress={()=>{
+    <Icon style={styles.icon} type="FontAwesome" name="filter" size={20} onPress={()=>{
         this.search()
     }}></Icon>
     </View>
@@ -156,7 +146,7 @@ const array=[
     
     
     <ScrollView>
-        {this.state.dataArray.map((item,key)=> <ProductItem item={item}></ProductItem>)}
+        {this.state.dataArray.map((item,key)=> <ProductItem item={item} {...this.props}></ProductItem>)}
 
     </ScrollView>
         <View>
