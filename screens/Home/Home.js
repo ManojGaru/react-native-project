@@ -125,7 +125,7 @@ const array=[
     onChangeText={(text)=>{
         if (text != '') {
             let data = this.state.dataArray.filter((item) =>
-              item.name.toLowerCase().includes(text.toLowerCase()),
+              item.Name.toLowerCase().includes(text.toLowerCase()),
             );
             this.setState({dataArray: data});
           } else {
